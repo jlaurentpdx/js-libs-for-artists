@@ -32,8 +32,7 @@ describe('artist-libs-api routes', () => {
         id: '1',
         name: 'tone.js',
         url: 'https://tonejs.github.io/',
-        description:
-          'Tone.js is a Web Audio framework for creating interactive music in the browser.',
+        description: 'Tone.js is a super neat-o library.',
       },
       {
         id: '2',
@@ -60,6 +59,24 @@ describe('artist-libs-api routes', () => {
 
     const response = await request(app).get('/api/v1/libraries/2');
 
+    expect(response.body).toEqual(expected);
+  });
+
+  it('should update a single row accessed by ID', async () => {
+    const expected = {
+      id: '1',
+      name: 'tone.js',
+      url: 'https://tonejs.github.io/',
+      description:
+        'Tone.js is a Web Audio framework for creating interactive music in the browser. It is really neat.',
+    };
+
+    const response = await request(app)
+      .patch('/api/v1/libraries/1')
+      .send({
+        description:
+          'Tone.js is a Web Audio framework for creating interactive music in the browser. It is really neat.',
+      });
     expect(response.body).toEqual(expected);
   });
 });
