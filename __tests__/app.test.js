@@ -48,4 +48,18 @@ describe('artist-libs-api routes', () => {
 
     expect(response.body).toEqual(expected);
   });
+
+  it('should read a single row by ID from the API', async () => {
+    const expected = {
+      id: '2',
+      name: 'p5.js',
+      url: 'https://p5js.org/',
+      description:
+        'p5.js is a JavaScript library for creative coding, with a focus on making coding accessible and inclusive for artists, designers, educators, beginners, and anyone else!',
+    };
+
+    const response = await request(app).get('/api/v1/libraries/2');
+
+    expect(response.body).toEqual(expected);
+  });
 });
