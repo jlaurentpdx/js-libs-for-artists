@@ -2,6 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
+const Library = require('../lib/models/Library');
 
 describe('artist-libs-api routes', () => {
   beforeEach(() => {
@@ -71,12 +72,19 @@ describe('artist-libs-api routes', () => {
         'Tone.js is a Web Audio framework for creating interactive music in the browser. It is really neat.',
     };
 
-    const response = await request(app)
-      .patch('/api/v1/libraries/1')
-      .send({
-        description:
-          'Tone.js is a Web Audio framework for creating interactive music in the browser. It is really neat.',
-      });
+    const response = await request(app).patch('/api/v1/libraries/1').send({
+      description:
+        'Tone.js is a Web Audio framework for creating interactive music in the browser. It is really neat.',
+    });
+    expect(response.body).toEqual(expected);
+  });
+
+  it('should delete a single row by corresponding id', async () => {
+    const expected = await Library.findById(1);
+    const response = await request(app).delete(
+      `/api/v1/libraries/${expected.id}`
+    );
+
     expect(response.body).toEqual(expected);
   });
 });
